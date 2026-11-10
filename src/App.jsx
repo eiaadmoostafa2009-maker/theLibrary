@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom"
+import { HashRouter, Route, Routes, useLocation } from "react-router-dom"
 import Home from "./pages/Home"
 import LandingPage from "./pages/LandingPage"
 import Login from "./pages/Login"
@@ -42,9 +42,9 @@ function AppLayout() {
 function App() {
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppLayout />
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
