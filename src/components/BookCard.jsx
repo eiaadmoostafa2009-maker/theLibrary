@@ -24,7 +24,7 @@ export default function BookCard({ book }) {
             <div className="like-btn">
                 <button
                     type="button"
-                    onClick={() => toggleFavourite(book.id)}
+                    onClick={() => toggleFavourite(book)}
                     aria-label={
                         liked ? "Remove from favourites" : "Add to favourites"
                     }

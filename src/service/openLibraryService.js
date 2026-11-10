@@ -36,7 +36,7 @@ export const bookService = {
     const response = await fetch(
       `${BASE_URL}/search.json?${params}`
     );
-
+    
     // 3. Check whether the request succeeded
     if (!response.ok) {
       throw new Error(
@@ -48,9 +48,9 @@ export const bookService = {
     const data = await response.json();
 
     // 5. Normalize the API response
-    const books = data.docs
-      .map((book) => normalizeBook(book))
-      .filter((book) => book !== null);
+    const books = (data.docs ?? [])
+    .map((book) => normalizeBook(book))
+    .filter((book) => book !== null);
 
     return {
       books,

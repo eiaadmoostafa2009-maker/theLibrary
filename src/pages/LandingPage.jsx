@@ -16,11 +16,8 @@ export default function LandingPage(){
         </p>
       </div>
 
-      <Link to="/login" className="primary-button">
-        Login
-      </Link>
-      <Link to="/register" className="secondery-button">
-        Register
+      <Link to="/home" className="primary-button">
+        Home
       </Link>
     </section>
   );

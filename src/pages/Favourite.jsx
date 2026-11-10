@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 
 export default function Favourites() {
 
-    const { favouriteBooks } = useLibrary();
+    const { favourites = [] } = useLibrary();
 
     const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredBooks = favouriteBooks.filter((book) =>
+    const filteredBooks = favourites.filter((book) =>
         book.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -30,7 +30,7 @@ export default function Favourites() {
                     </div>
 
                     <span className="fav-count">
-                        {favouriteBooks.length} books
+                        {favourites.length} books
                     </span>
                 </header>
 
@@ -49,18 +49,18 @@ export default function Favourites() {
                         <span>♡</span>
 
                         <h2>
-                            {favouriteBooks.length === 0
+                            {favourites.length === 0
                                 ? "No favourites yet"
                                 : "No books found"}
                         </h2>
 
                         <p>
-                            {favouriteBooks.length === 0
+                            {favourites.length === 0
                                 ? "Explore your library and save the books you love."
                                 : "Try another search."}
                         </p>
 
-                        {favouriteBooks.length === 0 && (
+                        {favourites.length === 0 && (
                             <Link to="/home">
                                 Explore books
                             </Link>
