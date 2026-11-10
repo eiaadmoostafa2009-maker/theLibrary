@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import NavBar from "../layout/NavBar";
 import BookCard from "../components/BookCard";
 import { useLibrary } from "../context/LibraryContext";
 import { Link } from "react-router-dom";
@@ -16,37 +15,39 @@ export default function Favourites() {
     );
 
     return (
-        <div className="fav">
-
-            <NavBar />
-
-            <main className="fav-container">
+        <div className="fav-page">
+            <div className="page-content">
 
                 <header className="fav-header">
                     <div>
-                        <p className="eyebrow">YOUR COLLECTION</p>
-                        <h1>Favourites</h1>
-                        <p>Keep the books that mean something to you.</p>
+                        <p className="fav-eyebrow">Your Collection</p>
+                        <h1 className="fav-title">Favourites</h1>
+                        <p className="fav-subtitle">
+                            The books that mean something to you.
+                        </p>
                     </div>
 
                     <span className="fav-count">
-                        {favourites.length} books
+                        {favourites.length} {favourites.length === 1 ? "book" : "books"}
                     </span>
                 </header>
 
-                <div className="fav-toolbar">
-                    <input
-                        type="text"
-                        placeholder="Search your favourites..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </div>
+                {favourites.length > 0 && (
+                    <div className="fav-toolbar">
+                        <input
+                            type="text"
+                            placeholder="Search your favourites…"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            aria-label="Search favourites"
+                        />
+                    </div>
+                )}
 
                 {filteredBooks.length === 0 ? (
 
                     <div className="empty-favourites">
-                        <span>♡</span>
+                        <span className="empty-heart" aria-hidden="true">♡</span>
 
                         <h2>
                             {favourites.length === 0
@@ -56,13 +57,17 @@ export default function Favourites() {
 
                         <p>
                             {favourites.length === 0
-                                ? "Explore your library and save the books you love."
-                                : "Try another search."}
+                                ? "Explore the library and save the books you love."
+                                : "Try another search term."}
                         </p>
 
                         {favourites.length === 0 && (
-                            <Link to="/home">
-                                Explore books
+                            <Link to="/home" className="explore-link">
+                                Explore Books
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12" />
+                                    <polyline points="12 5 19 12 12 19" />
+                                </svg>
                             </Link>
                         )}
                     </div>
@@ -80,7 +85,7 @@ export default function Favourites() {
 
                 )}
 
-            </main>
+            </div>
         </div>
     );
 }

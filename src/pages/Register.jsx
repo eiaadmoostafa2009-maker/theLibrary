@@ -10,63 +10,71 @@ export default function Register(){
 
     return(
         <div className="auth-page">
-            <div className="page-title">
-                <h2>Register</h2>
+            <div className="auth-card">
+                <div className="auth-logo">
+                    <Link to="/">The Library</Link>
+                </div>
+                <h2 className="auth-heading">Create your account</h2>
+
+                <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
+                    <div className="form-group">
+                        <label htmlFor="reg-username">Username</label>
+                        <input 
+                           id="reg-username"
+                           type="text" 
+                           placeholder="Your name"
+                           {...register("user-name", {
+                               required: "Username is required",
+                               minLength: {
+                                  value: 3,
+                                  message: "Must be at least 3 characters"
+                               }
+                           })} 
+                        />
+                        {errors["user-name"] && <p className="field-error">{ errors["user-name"].message}</p>}
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="reg-email">Email</label>
+                        <input 
+                           id="reg-email"
+                           type="email" 
+                           placeholder="you@example.com"
+                           {...register("email", {
+                               required: "Email is required",
+                               pattern: {
+                                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                  message: "Invalid email format"
+                               }
+                           })} 
+                        />
+                        {errors.email && <p className="field-error">{ errors.email.message}</p>}
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="reg-password">Password</label>
+                        <input 
+                           id="reg-password"
+                           type="password" 
+                           placeholder="••••••••"
+                           {...register("password", {
+                               required: "Password is required",
+                               minLength: {
+                                  value: 8,
+                                  message: "Must be at least 8 characters"
+                               }
+                           })} 
+                        />
+                        {errors.password && <p className="field-error">{ errors.password.message}</p>}
+                    </div>
+
+                    <button type="submit" className="auth-submit">Create Account</button>
+                </form>
+
+                <p className="auth-footer">
+                    Already have an account? <Link to="/login">Sign in</Link>
+                </p>
             </div>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-                <div className="form-input">
-                    <label name="user-name">User Name:-</label>
-                    <input 
-                       type="text" 
-                       placeholder="Ahmed_Mohamed"
-                       {...register("user-name", {
-                           required: "user name is required",
-                           minLength: {
-                              value: 8,
-                              message: "it must be atleast 8"
-                           }
-                       })} 
-                    />
-                </div>
-
-                <div className="form-input">
-                    <label name="email">Email:-</label>
-                    <input 
-                       type="email" 
-                       placeholder="ahmed@yahoo.com"
-                       {...register("email", {
-                           required: "email is required",
-                           pattern: {
-                              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                              message: "Invalid email format"
-                           }
-                       })} 
-                    />
-                    {errors.email && <p className="error">{ errors.email.message}</p>}
-                </div>
-
-                <div className="form-input">
-                    <label name="password">Password:-</label>
-                    <input 
-                       type="password" 
-                       placeholder="********"
-                       {...register("password", {
-                           required: "password is required",
-                           minLength: {
-                              value: 8,
-                              message: "it must be atleast 8"
-                           }
-                       })} 
-                    />
-                    {errors.password && <p className="error">{ errors.password.message}</p>}
-                </div>
-
-                <div className="btn">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
-             <Link to="/login" className="auth-link">already have account</Link>
         </div>
     )
 }

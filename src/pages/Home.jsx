@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import BookCard from "../components/BookCard";
-import NavBar from "../layout/NavBar";
 import { bookService } from "../service/openLibraryService";
 
 export default function Home() {
@@ -25,6 +24,7 @@ export default function Home() {
        } 
        
        setLoading(true); 
+       setError(null);
 
        try{
           const result = await bookService.searchBooks(query);
@@ -48,36 +48,59 @@ export default function Home() {
     }
 
     return (
-        <div className="home">
+        <div className="home-page">
+            <div className="page-content">
 
-            <NavBar />
+                <div className="page-header">
+                    <h1 className="page-title">Discover</h1>
+                    <p className="page-subtitle">
+                        Search the world's largest open book catalogue
+                    </p>
+                </div>
 
-            <h1>Discover your library</h1>
+                <div className="search-form">
+                    <form onSubmit={handleSubmit}>
+                      <span className="search-icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8" />
+                          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                      </span>
+                      <input
+                         type="text"
+                         placeholder="Search by title, author, or keyword…"
+                         value={ searchQuery }
+                         onChange={ (e) => {setSearchQuery(e.target.value)} }
+                         aria-label="Search books"
+                      />
+                      <button type="submit">
+                        {loading ? "Searching…" : "Search"}
+                      </button>
+                   </form>
+                   {error && <p className="error">{error}</p>}
+                </div>
 
-            <div className="search-form">
-                <form onSubmit={handleSubmit}>
-                  <input
-                     type="text"
-                     placeholder="1984"
-                     value={ searchQuery }
-                     onChange={ (e) => {setSearchQuery(e.target.value)} }
-                  />
-                  <button type="submit">
-                    {loading ? "Searching..." : "Search"}
-                  </button>
-               </form>
-               {error && <p className="error">{error}</p>}
+                {!loading && total > 0 && (
+                    <p className="results-count">
+                        Showing {filteredBooks.length} of {total.toLocaleString()} results
+                    </p>
+                )}
+
+                {loading ? (
+                    <p className="loading-message">Finding books…</p>
+                ) : filteredBooks.length > 0 ? (
+                    <div className="book-grid">
+                        {filteredBooks.map((book) => (
+                            <BookCard key={book.id} book={book} />
+                        ))}
+                    </div>
+                ) : !loading && books.length === 0 && searchQuery ? (
+                    <div className="empty-state">
+                        <p>No books found. Try a different search term.</p>
+                    </div>
+                ) : null}
+
             </div>
-
-            {loading ? <p className="loading-message">Loading...</p>
-            :
-            <div className="book-grid">
-                {filteredBooks.map((book) => (
-                    <BookCard key={book.id} book={book} />
-                ))}
-            </div>
-            }
-
         </div>
     );
 }
